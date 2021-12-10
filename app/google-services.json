@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "203100946374",
+    "project_id": "financecontrol-6f5e0",
+    "storage_bucket": "financecontrol-6f5e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203100946374:android:4637e8e5c5aec54928fcc7",
+        "android_client_info": {
+          "package_name": "com.example.financecontrol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "203100946374-496d01hlvlvioqiock20upo2vjfrf672.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXmKL5uMS9ABmbVnnDAbtu1vtHomsIRBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "203100946374-496d01hlvlvioqiock20upo2vjfrf672.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
