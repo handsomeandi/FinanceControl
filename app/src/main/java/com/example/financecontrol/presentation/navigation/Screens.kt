@@ -1,4 +1,4 @@
-package com.example.financecontrol.navigation
+package com.example.financecontrol.presentation.navigation
 
 import com.example.financecontrol.presentation.auth.AuthFlowFragment
 import com.example.financecontrol.presentation.auth.login.LoginFragment
