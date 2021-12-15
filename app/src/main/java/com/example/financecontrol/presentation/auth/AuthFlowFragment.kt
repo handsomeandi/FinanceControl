@@ -5,7 +5,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.financecontrol.R
 import com.example.financecontrol.config.Constants
 import com.example.financecontrol.databinding.FragmentAuthFlowBinding
-import com.example.financecontrol.presentation.base.BaseFragment
+import com.example.financecontrol.presentation.base.BaseFlowFragment
+import com.example.financecontrol.presentation.navigation.Screens
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
@@ -16,33 +17,29 @@ import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 
 //TODO: Shared ViewModel that observes events on the child screens and navigates through them
-class AuthFlowFragment : BaseFragment<FragmentAuthFlowBinding>(R.layout.fragment_auth_flow) {
+class AuthFlowFragment : BaseFlowFragment<FragmentAuthFlowBinding>(R.layout.fragment_auth_flow) {
     override val binding: FragmentAuthFlowBinding by viewBinding()
     private val scope = getKoin().createScope(getScopeId(), named(Constants.GLOBAL_FLOW_SCOPE_NAME))
-    private val navigatorHolder: NavigatorHolder by scope.inject()
-    private val router: Router by scope.inject()
+    override val navigatorHolder: NavigatorHolder by scope.inject()
+    override val router: Router by scope.inject()
+    override val containerId: Int = R.id.fcvAuth
+    override val navigator: AppNavigator by scope.inject {
+        parametersOf(activity, containerId, childFragmentManager)
+    }
     private val viewModel: AuthFlowViewModel by viewModel {
         parametersOf(router)
-    }
-    private val navigator: AppNavigator by scope.inject {
-        parametersOf(this, R.id.fcvAuth, childFragmentManager)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.onStart()
+        router.newRootScreen(Screens.RegisterScreen())
     }
 
-    override fun onResume() {
-        super.onResume()
-        navigatorHolder.setNavigator(navigator)
-
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.close()
     }
 
-    override fun onPause() {
-        super.onPause()
-        navigatorHolder.removeNavigator()
-    }
     companion object {
         @JvmStatic
         fun newInstance() = AuthFlowFragment()

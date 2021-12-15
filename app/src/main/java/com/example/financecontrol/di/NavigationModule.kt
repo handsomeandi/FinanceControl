@@ -12,10 +12,10 @@ import org.koin.dsl.module
 
 //TODO: make scoped navigation(local and global)
 val navigationModule = module {
+    //Scope for MainActivity
+    fun getRouter(cicerone: Cicerone<Router>) = cicerone.router
+    fun getNavigationHolder(cicerone: Cicerone<Router>) = cicerone.getNavigatorHolder()
     scope(named(Constants.GLOBAL_SCOPE_NAME)) {
-        fun getRouter(cicerone: Cicerone<Router>) = cicerone.router
-        fun getNavigationHolder(cicerone: Cicerone<Router>) = cicerone.getNavigatorHolder()
-
         scoped {
             Cicerone.create()
         }
@@ -30,10 +30,8 @@ val navigationModule = module {
         }
 
     }
+    //Scope for global flows(auth and main)
     scope(named(Constants.GLOBAL_FLOW_SCOPE_NAME)) {
-        fun getRouter(cicerone: Cicerone<Router>) = cicerone.router
-        fun getNavigationHolder(cicerone: Cicerone<Router>) = cicerone.getNavigatorHolder()
-
         scoped {
             Cicerone.create()
         }
