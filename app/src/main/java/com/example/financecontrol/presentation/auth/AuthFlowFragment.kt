@@ -6,7 +6,8 @@ import com.example.financecontrol.R
 import com.example.financecontrol.config.Constants
 import com.example.financecontrol.databinding.FragmentAuthFlowBinding
 import com.example.financecontrol.presentation.base.BaseFlowFragment
-import com.example.financecontrol.presentation.navigation.Screens
+import com.example.financecontrol.presentation.base.ViewAction
+import com.example.financecontrol.presentation.base.ViewIntent
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
@@ -16,8 +17,20 @@ import org.koin.core.component.getScopeId
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 
-//TODO: Shared ViewModel that observes events on the child screens and navigates through them
-class AuthFlowFragment : BaseFlowFragment<FragmentAuthFlowBinding>(R.layout.fragment_auth_flow) {
+
+sealed class AuthFlowAction : ViewAction {
+    object OpenRegisterScreen : AuthFlowAction()
+}
+
+sealed class AuthFlowIntent : ViewIntent {
+    object OpenRootScreen : AuthFlowIntent()
+}
+
+
+class AuthFlowFragment :
+    BaseFlowFragment<FragmentAuthFlowBinding, AuthFlowState, AuthFlowAction, AuthFlowIntent, AuthFlowViewModel>(
+        R.layout.fragment_auth_flow
+    ) {
     override val binding: FragmentAuthFlowBinding by viewBinding()
     private val scope = getKoin().createScope(getScopeId(), named(Constants.GLOBAL_FLOW_SCOPE_NAME))
     override val navigatorHolder: NavigatorHolder by scope.inject()
@@ -26,18 +39,24 @@ class AuthFlowFragment : BaseFlowFragment<FragmentAuthFlowBinding>(R.layout.frag
     override val navigator: AppNavigator by scope.inject {
         parametersOf(activity, containerId, childFragmentManager)
     }
-    private val viewModel: AuthFlowViewModel by viewModel {
+    override val viewModel: AuthFlowViewModel by viewModel {
         parametersOf(router)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        router.newRootScreen(Screens.RegisterScreen())
+        dispatchIntent(AuthFlowIntent.OpenRootScreen)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         scope.close()
+    }
+
+    override fun render(state: AuthFlowState) {
+        when (state) {
+            is AuthFlowState.CurrentScreen -> router.newRootScreen(state.screen)
+        }
     }
 
     companion object {

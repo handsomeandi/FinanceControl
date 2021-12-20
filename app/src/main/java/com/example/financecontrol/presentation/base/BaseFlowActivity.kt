@@ -9,6 +9,7 @@ import com.github.terrakok.cicerone.androidx.AppNavigator
 
 abstract class BaseFlowActivity<VB: ViewBinding>(@LayoutRes contentLayoutId: Int): AppCompatActivity(contentLayoutId), ScreenFlow {
     abstract val binding: VB
+    abstract val router: Router
 
     override fun onBackPressed() {
         (supportFragmentManager.findFragmentById(containerId) as? BackHandler)?.handleBack() ?: super.onBackPressed()

@@ -6,7 +6,6 @@ import com.github.terrakok.cicerone.androidx.AppNavigator
 
 interface ScreenFlow {
     val navigatorHolder: NavigatorHolder
-    val router: Router
     val navigator: AppNavigator
     val containerId: Int
 }
