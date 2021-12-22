@@ -21,6 +21,9 @@ abstract class BaseFragment<VB : ViewBinding, S: State, A:ViewAction, I:ViewInte
         viewModel.state.observe(this){
             render(it)
         }
+        viewModel.actions.observe(this){
+            processAction(it)
+        }
     }
 
     override fun handleBack() {
@@ -28,8 +31,10 @@ abstract class BaseFragment<VB : ViewBinding, S: State, A:ViewAction, I:ViewInte
     }
 
     fun dispatchIntent(intent: I){
-        viewModel.handleIntent(intent)
+        viewModel.sendIntent(intent)
     }
 
     abstract fun render(state: S)
+
+    abstract fun processAction(action: A)
 }

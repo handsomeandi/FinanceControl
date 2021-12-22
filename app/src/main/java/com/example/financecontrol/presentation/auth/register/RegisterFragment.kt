@@ -33,6 +33,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding,RegisterState, Reg
     override fun render(state: RegisterState) {
     }
 
+    override fun processAction(action: RegisterAction) {
+
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() = RegisterFragment()

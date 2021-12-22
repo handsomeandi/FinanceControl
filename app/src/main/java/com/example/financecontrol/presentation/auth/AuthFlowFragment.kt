@@ -8,6 +8,7 @@ import com.example.financecontrol.databinding.FragmentAuthFlowBinding
 import com.example.financecontrol.presentation.base.BaseFlowFragment
 import com.example.financecontrol.presentation.base.ViewAction
 import com.example.financecontrol.presentation.base.ViewIntent
+import com.example.financecontrol.presentation.navigation.Screens.RegisterScreen
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
@@ -55,7 +56,12 @@ class AuthFlowFragment :
 
     override fun render(state: AuthFlowState) {
         when (state) {
-            is AuthFlowState.CurrentScreen -> router.newRootScreen(state.screen)
+        }
+    }
+
+    override fun processAction(action: AuthFlowAction) {
+        when(action){
+            AuthFlowAction.OpenRegisterScreen -> router.newRootScreen(RegisterScreen())
         }
     }
 

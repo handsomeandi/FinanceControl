@@ -8,13 +8,14 @@ abstract class BaseViewModel<S : State, I:ViewIntent, A: ViewAction> : ViewModel
     protected val mState: MutableLiveData<S> = MutableLiveData()
     val state: LiveData<S>
         get() = mState
+    protected val mActions: SingleLiveEvent<A> = SingleLiveEvent()
+    val actions: LiveData<A>
+        get() = mActions
 
-    fun handleIntent(intent: I){
-        handleAction(intentToAction(intent))
+    fun sendIntent(intent: I){
+        handleIntent(intent)
     }
 
-    protected abstract fun intentToAction(intent: I): A
-
-    protected abstract fun handleAction(action: A)
+    protected abstract fun handleIntent(intent: I)
 
 }

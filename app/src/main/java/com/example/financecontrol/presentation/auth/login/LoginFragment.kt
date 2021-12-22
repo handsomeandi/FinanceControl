@@ -34,6 +34,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginState, LoginAction
     override fun render(state: LoginState) {
     }
 
+    override fun processAction(action: LoginAction) {
+
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() = LoginFragment()
