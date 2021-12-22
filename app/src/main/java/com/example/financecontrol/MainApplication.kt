@@ -9,9 +9,13 @@ class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         // Start Koin
+        shared = this
         startKoin {
             androidContext(this@MainApplication)
             modules(appModule)
         }
+    }
+    companion object {
+        lateinit var shared: MainApplication private set
     }
 }

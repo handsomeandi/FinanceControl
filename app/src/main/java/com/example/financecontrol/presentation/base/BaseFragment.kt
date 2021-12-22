@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.github.terrakok.cicerone.Router
 
-//TODO: implement single time events(navigation, toasts etc.)
+
 abstract class BaseFragment<VB : ViewBinding, S: State, A:ViewAction, I:ViewIntent, VM:BaseViewModel<S,I,A>>(@LayoutRes layout: Int) : Fragment(layout),
     BackHandler {
     abstract val binding: VB
