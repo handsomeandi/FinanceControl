@@ -1,12 +1,12 @@
 package com.example.financecontrol.presentation
 
-import androidx.lifecycle.ViewModel
-import com.example.financecontrol.presentation.navigation.Screens
-import com.github.terrakok.cicerone.Router
+import com.example.financecontrol.presentation.base.BaseViewModel
 
-//TODO: make intent, actions ect. for activity
-class MainActivityViewModel(private val router: Router): ViewModel() {
-    fun onStart(){
-        router.navigateTo(Screens.AuthFlowScreen())
+
+class MainActivityViewModel : BaseViewModel<MainState, MainIntent, MainAction>() {
+    override fun handleIntent(intent: MainIntent) {
+        when (intent) {
+            MainIntent.OpenAuthFlowScreen -> mActions.value = MainAction.OpenAuthFlowScreen
+        }
     }
 }

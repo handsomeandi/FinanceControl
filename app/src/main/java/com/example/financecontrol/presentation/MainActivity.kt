@@ -6,6 +6,10 @@ import com.example.financecontrol.R
 import com.example.financecontrol.config.Constants
 import com.example.financecontrol.databinding.ActivityMainBinding
 import com.example.financecontrol.presentation.base.BaseFlowActivity
+import com.example.financecontrol.presentation.base.State
+import com.example.financecontrol.presentation.base.ViewAction
+import com.example.financecontrol.presentation.base.ViewIntent
+import com.example.financecontrol.presentation.navigation.Screens
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
@@ -15,11 +19,24 @@ import org.koin.core.component.getScopeId
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 
-class MainActivity : BaseFlowActivity<ActivityMainBinding>(R.layout.activity_main) {
+sealed class MainState : State
+
+sealed class MainAction : ViewAction {
+    object OpenAuthFlowScreen : MainAction()
+}
+
+sealed class MainIntent : ViewIntent {
+    object OpenAuthFlowScreen : MainIntent()
+}
+
+class MainActivity :
+    BaseFlowActivity<ActivityMainBinding, MainState, MainIntent, MainAction, MainActivityViewModel>(
+        R.layout.activity_main
+    ) {
     private val scope = getKoin().createScope(getScopeId(), named(Constants.GLOBAL_SCOPE_NAME))
     override val navigatorHolder: NavigatorHolder by scope.inject()
     override val router: Router by scope.inject()
-    private val viewModel: MainActivityViewModel by viewModel {
+    override val viewModel: MainActivityViewModel by viewModel {
         parametersOf(router)
     }
     override val containerId: Int = R.id.fcvActivity
@@ -30,9 +47,18 @@ class MainActivity : BaseFlowActivity<ActivityMainBinding>(R.layout.activity_mai
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.onStart()
+        viewModel.sendIntent(MainIntent.OpenAuthFlowScreen)
     }
 
+    override fun render(state: MainState) {
+
+    }
+
+    override fun processAction(action: MainAction) {
+        when (action) {
+            MainAction.OpenAuthFlowScreen -> router.navigateTo(Screens.AuthFlowScreen())
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
