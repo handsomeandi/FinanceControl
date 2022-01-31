@@ -108,7 +108,7 @@ class RegisterFragment :
 
     override fun processAction(action: RegisterAction) {
         when (action) {
-            RegisterAction.OpenLoginScreen -> router?.navigateTo(LoginScreen())
+            RegisterAction.OpenLoginScreen -> router?.newRootScreen(LoginScreen())
             RegisterAction.SuccessRegister -> register()
             is RegisterAction.RegisterError -> displayError(action.error)
         }
